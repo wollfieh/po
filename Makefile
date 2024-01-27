@@ -2,6 +2,7 @@
 BINARY=pushover
 
 ${BINARY}:
+  go mod tidy
 	go build -o ${BINARY} .
 
 dist: ${BINARY}
