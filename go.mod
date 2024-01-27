@@ -1,4 +1,4 @@
-module pushover
+module pushover-client
 
 go 1.21.6
 
