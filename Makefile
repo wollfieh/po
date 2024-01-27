@@ -2,7 +2,8 @@
 BINARY=pushover
 
 ${BINARY}:
-  go mod tidy
+	go mod tidy
+	go mod vendor
 	go build -o ${BINARY} .
 
 dist: ${BINARY}
