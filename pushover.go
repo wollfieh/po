@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"strings"
@@ -36,16 +37,8 @@ func main() {
 	log.Println(response)
 }
 
-// fun readbody read from stdin and return the string
+// readbody reads the body from the standard input and returns it as a string.
 func readbody() string {
-	var body string
-	buf := make([]byte, 1024)
-	for {
-		n, err := os.Stdin.Read(buf)
-		if n == 0 || err != nil {
-			break
-		}
-		body += string(buf[:n])
-	}
-	return body
+	res, _ := io.ReadAll(os.Stdin)
+	return string(res)
 }
