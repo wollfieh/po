@@ -24,7 +24,7 @@ func main() {
 	recipient := pushover.NewRecipient(apiToken)
 
 	// Create the message to send
-	message := pushover.NewMessage(strings.Join(os.Args[1:], " "))
+	message := pushover.NewMessageWithTitle(readbody(), strings.Join(os.Args[1:], " "))
 
 	// Send the message to the recipient
 	response, err := app.SendMessage(message, recipient)
@@ -34,4 +34,18 @@ func main() {
 
 	// Print the response if you want
 	log.Println(response)
+}
+
+// fun readbody read from stdin and return the string
+func readbody() string {
+	var body string
+	buf := make([]byte, 1024)
+	for {
+		n, err := os.Stdin.Read(buf)
+		if n == 0 || err != nil {
+			break
+		}
+		body += string(buf[:n])
+	}
+	return body
 }
