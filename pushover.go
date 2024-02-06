@@ -48,7 +48,7 @@ func readBody() string {
 
 // func limitBody truncates the body to the given length. it takes a string and an int as arguments and returns a string.
 func limitBody(body string, length int) string {
-	appended := fmt.Sprintf("Message truncated to %d characters", length)
+	appended := fmt.Sprintf("\n\nMessage truncated to %d characters", length)
 	remainder := length - len(appended)
 	if len(body) > length {
 		return body[:remainder] + appended
