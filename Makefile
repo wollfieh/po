@@ -1,7 +1,7 @@
 
 BINARY=pushover
 
-${BINARY}:
+${BINARY}: *.go
 	go mod tidy
 	go mod vendor
 	go build -o ${BINARY} .

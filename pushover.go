@@ -25,7 +25,7 @@ func main() {
 	recipient := pushover.NewRecipient(apiToken)
 
 	// Create the message to send
-	message := pushover.NewMessageWithTitle(readbody(), strings.Join(os.Args[1:], " "))
+	message := pushover.NewMessageWithTitle(limitBody(readBody(), 1024), strings.Join(os.Args[1:], " "))
 
 	// Send the message to the recipient
 	response, err := app.SendMessage(message, recipient)
@@ -37,8 +37,21 @@ func main() {
 	log.Println(response)
 }
 
-// readbody reads the body from the standard input and returns it as a string.
-func readbody() string {
+// readBody reads the body from the standard input and returns it as a string.
+func readBody() string {
 	res, _ := io.ReadAll(os.Stdin)
+	if len(res) == 0 {
+		return "No body"
+	}
 	return string(res)
+}
+
+// func limitBody truncates the body to the given length. it takes a string and an int as arguments and returns a string.
+func limitBody(body string, length int) string {
+	appended := fmt.Sprintf("Message truncated to %d characters", length)
+	remainder := length - len(appended)
+	if len(body) > length {
+		return body[:remainder] + appended
+	}
+	return body
 }
