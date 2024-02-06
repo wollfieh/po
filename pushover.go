@@ -16,21 +16,20 @@ func main() {
 		fmt.Printf("%s <messsage>\n", os.Args[0])
 
 	}
-	userKey := "akwjcknmaxrtx4sven9x2oy4974pm7"
-	apiToken := "u9ps3pf4e72o39dksnhwcztd287x3b"
+	credentials := getEnv()
 	// Create a new pushover app with a token
-	app := pushover.New(userKey)
+	app := pushover.New(credentials["userKey"])
 
 	// Create a new recipient
-	recipient := pushover.NewRecipient(apiToken)
+	recipient := pushover.NewRecipient(credentials["apiToken"])
 
-	// Create the message to send
+	// message comes from stding, title is the arguments passed
 	message := pushover.NewMessageWithTitle(limitBody(readBody(), 1024), strings.Join(os.Args[1:], " "))
 
 	// Send the message to the recipient
 	response, err := app.SendMessage(message, recipient)
 	if err != nil {
-		log.Panic(err)
+		log.Fatal(err)
 	}
 
 	// Print the response if you want
@@ -54,4 +53,9 @@ func limitBody(body string, length int) string {
 		return body[:remainder] + appended
 	}
 	return body
+}
+
+// get environment variables PO_userKey and PO_apiToken
+func getEnv() map[string]string {
+	return map[string]string{"userKey": os.Getenv("PO_userKey"), "apiToken": os.Getenv("PO_apiToken")}
 }
