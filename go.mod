@@ -1,4 +1,4 @@
-module pushover-client
+module github.com/wollfieh/pushover-client
 
 go 1.20
 
